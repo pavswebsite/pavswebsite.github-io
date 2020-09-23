@@ -17,7 +17,14 @@ firebase.auth().onAuthStateChanged(user => {
     alert(`${user.displayName || user.email}`);
   }
 });
-function submit(){
+</script>
+</head>
+<body>
+Email: <input type="text" id="email"/><br><br>
+Password: <input type="text" id="pass"/><br><br>
+<button id="button" onClick = "submit()" event = "Click">Submit</button>
+  <script>
+    function submit(){
 var email= document.getElementById("email").value;
 var password= document.getElementById("pass").value;
 firebase.auth()
@@ -29,10 +36,5 @@ firebase.auth()
    }
 );
 };
-</script>
-</head>
-<body>
-Email: <input type="text" id="email"/><br><br>
-Password: <input type="text" id="pass"/><br><br>
-<button id="button" onClick = "submit()" event = "Click">Submit</button>
+  </script>
 </body>
