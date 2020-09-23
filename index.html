@@ -1,0 +1,34 @@
+<script>
+  var firebaseConfig = {
+    apiKey: "AIzaSyAWb46FiywE5G2tS-Zb5SGiiwp7X3cunqw",
+    authDomain: "cpeg470-project.firebaseapp.com",
+    databaseURL: "https://cpeg470-project.firebaseio.com",
+    projectId: "cpeg470-project",
+    storageBucket: "cpeg470-project.appspot.com",
+    messagingSenderId: "662707334858",
+    appId: "1:662707334858:web:1f2040475cb27e4541ce33"
+  };
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+
+firebase.auth().onAuthStateChanged(user => {
+  if (!!user){
+    alert(`${user.displayName || user.email}`);
+  }
+});
+function submit(){
+var email= document.getElementById("email").value;
+var password= document.getElementById("pass").value;
+firebase.auth()
+  .signInWithEmailAndPassword(
+    email, 
+    password
+   ).catch(function(error) {
+          alert(error.message);
+   }
+);
+};
+<script>
+Email: <input type="text" id="email"/><br><br>
+Password: <input type="text" id="pass"/><br><br>
+<button id="button" onClick = "submit()" event = "Click">Submit</button>
