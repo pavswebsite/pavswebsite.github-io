@@ -1,0 +1,206 @@
+<head>
+    <style>
+       body {
+  color: white;
+  background-color: black;
+  font-size: 1.6em;
+  margin-left: 30%;
+  margin-right:30%;
+  font-family: 'Lato', sans-serif;
+}
+button {
+  border: none;
+  color: white;
+  padding: 16px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+  background-color: #e7e7e7;
+  color: black;
+}
+button:hover {
+  background-color: white; 
+  color: black; 
+  border: 2px solid #e7e7e7;
+} 
+    </style>
+  <script src="https://www.gstatic.com/firebasejs/7.21.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.21.0/firebase-database.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.21.0/firebase-auth.js"></script>
+  <script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+      apiKey: "AIzaSyCS02hY0QFPBe1_O2InIkZfrDu2qlXljho",
+      authDomain: "cyo-adventure-game.firebaseapp.com",
+      databaseURL: "https://cyo-adventure-game.firebaseio.com",
+      projectId: "cyo-adventure-game",
+      storageBucket: "cyo-adventure-game.appspot.com",
+      messagingSenderId: "714626393544",
+      appId: "1:714626393544:web:d84518929de34a9d528cfd"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+  </script>   
+    <script>
+        let LoadSave = function(){
+            id = prompt("What's your ID?");
+            console.log(id);
+            yourDatabase = firebase.database().ref().child(id);
+            //console.log(ref.val());
+            console.log(yourDatabase.child("data").once("value"));
+            yourDatabase.child("data").once("value").then(function(snapshot)
+            {
+                console.log(snapshot.val());
+                window.state = snapshot.val().state;
+                var state = snapshot.val().state;
+            });
+            console.log(snapshot.val());
+            console.log(state);
+            if(state == 0){
+                submitname();
+            }
+            if(state == 1){
+                ready();
+            }
+            if(state == 2){
+                startingpath1();
+            }
+            if(state == 3){
+                path1();
+            }
+            if(state == 4){
+                path2();
+            }
+        }
+        function getUniqueId() {
+        id = `${Math.floor(Math.random()*10000000)}`
+        return id;
+        }
+        let adventureStart = function(){
+            yourDatabase = firebase.database().ref(getUniqueId());
+            var startbutton = document.getElementById("Start");
+            startbutton.remove();
+            var loadbutton = document.getElementById("Load");
+            loadbutton.remove();
+            var element;
+          element = document.getElementById("display");
+          if (element) {
+              element.innerHTML = `
+          <h1> Welcome to your adventure!</h1>
+          <button id="next" onClick = "next()" event = "Click">Next</button>
+          `
+          }
+          }
+          let next = function(){
+            var element;
+          element = document.getElementById("display");
+          if (element) {
+              element.innerHTML = `
+          <p> Why don't you start by telling me your name?</p>
+          <input id = "name"></input>
+          <button id = "Submitname" onClick = "submitname()" event = "Click">Submit</button>
+          `
+          }
+          }
+          let submitname = function(){
+            username = document.getElementById("name").value;
+            console.log(username);
+            var element;
+          element = document.getElementById("display");
+          if (element) {
+              element.innerHTML = `
+          <p> Sounds great! Nice to meet you ${username}!<p>
+          <p> I hope you're ready because you're about to embark on an awesome adventure!</p>
+          <p> You think you're ready? </p>
+          <button id = "Ready" onClick = "ready()" event = "Click">READY!</button> 
+          `
+          }
+            var chapter;
+            chapter = document.getElementById("Chapter");
+            if(chapter){
+              chapter.innerHTML = `<H1> Prologue </H1>`
+            }
+            var saveButton;
+            saveButton = document.getElementById("Save");
+            if(saveButton){
+                saveButton.innerHTML = `<button id="SaveButton" onClick = "save()" event = "Click"> Save </button>`
+            }
+            state = 0;
+          }
+          let save = function(){
+            data = {"username":username,"state":state};
+            console.log(data);
+            alert(`Cool! You saved, here's your ID to keep going another time! ${id}`)
+            yourDatabase.child("data").set(data);
+        }
+          let ready = function(){
+            var element;
+          element = document.getElementById("display");
+          if (element) {
+              element.innerHTML = `
+          <p style = "color:grey;"> You awake and look at the clock. It's 9:05...<p>
+          <p style = "color:powderblue;"> DAMN IT, I OVERSLEPT. </p>
+          <p style = "color:grey;"> You quickly throw on some clothes and sprint to your class. Thankfully, you live close by so it doesn't take you all that long.</p>
+          <button id = "startingpath1" onClick = "startingpath1()" event = "Click">Next</button> 
+          `
+          }
+            var chapter;
+            chapter = document.getElementById("chapter");
+            if(chapter){
+              chapter.innerHTML =
+                `
+              <H1> PROLOGUE </H1>
+          `
+            }
+            state = 1;
+          }
+          let startingpath1 = function(){
+            var element;
+          element = document.getElementById("display");
+          if (element) {
+              element.innerHTML = `
+          <p style = "color:grey;"> You arrive in class, admittedly a little more out of breath than you'd care to admit. </p>
+          <p> ${username}: Hey Andy, sorry I'm late... </p>
+          <p> Andy: No worries, ${username}, just go ahead and take your seat! </p>
+          <p style = "color:grey;"> You take your seat and pull out your laptop. You have two options. You can either get ahead on the work, or you can text your friend who got dumped last night. Which one do you want to go with? </p>
+          <button id = "path1" onClick = "path1()" event = "Click"> Study hard!</button> 
+          <button id = "path2" onClick = "path2()" event = "Click"> Help your friend! </button> 
+          `
+          }
+          state = 2;
+          }
+          let path1 = function(){
+            var element;
+          element = document.getElementById("display");
+          if (element) {
+              element.innerHTML = `
+          <p style = "color:grey;"> You study hard in class. This is the path to success! <p>
+          <p style = "color:grey;"> You can feel your ability growing, hopefully soon you can do amazing things with your new coding talents! </p>
+          `
+          }
+          state = 3;
+          }  
+          let path2 = function(){
+            var element;
+          element = document.getElementById("display");
+          if (element) {
+              element.innerHTML = `
+          <p style = "color:grey;"> You decide to text your friend. <p>
+          <p style = "color:grey;"> You can feel your friendship growing, hopefully soon you can do amazing things with your new charismatic talents! </p>
+          `
+          }
+          state = 4;
+          }
+    </script>
+</head>
+<body>
+    <button id="Load" onClick = "LoadSave()" event = "Click">Load a previous save!</button>
+    <button id="Start" onClick = "adventureStart()" event = "Click">Start a new save!</button>
+    <div id = "Chapter"></div>
+    <div id = "Save"></div>
+    <div id = "display"></div>
+</body>
