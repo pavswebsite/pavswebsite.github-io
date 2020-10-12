@@ -54,26 +54,45 @@ button:hover {
             yourDatabase.child("data").once("value").then(function(snapshot)
             {
                 console.log(snapshot.val());
-                window.state = snapshot.val().state;
-                var state = snapshot.val().state;
+                state = snapshot.val().state;
+                username = snapshot.val().username;
             });
-            console.log(snapshot.val());
+            setTimeout(function(){
             console.log(state);
-            if(state == 0){
-                submitname();
-            }
+            console.log(username);
             if(state == 1){
+                var startbutton = document.getElementById("Start");
+                startbutton.remove();
+                var loadbutton = document.getElementById("Load");
+                loadbutton.remove();
+                console.log("State 1 Loaded");
                 ready();
             }
             if(state == 2){
+                var startbutton = document.getElementById("Start");
+                startbutton.remove();
+                var loadbutton = document.getElementById("Load");
+                loadbutton.remove();
+                console.log("State 2 Loaded");
                 startingpath1();
             }
             if(state == 3){
+                var startbutton = document.getElementById("Start");
+                startbutton.remove();
+                var loadbutton = document.getElementById("Load");
+                loadbutton.remove();
+                console.log("State 3 Loaded");
                 path1();
             }
             if(state == 4){
+                var startbutton = document.getElementById("Start");
+                startbutton.remove();
+                var loadbutton = document.getElementById("Load");
+                loadbutton.remove();
+                console.log("State 4 Loaded");
                 path2();
             }
+            }, 3000);
         }
         function getUniqueId() {
         id = `${Math.floor(Math.random()*10000000)}`
@@ -93,8 +112,8 @@ button:hover {
           <button id="next" onClick = "next()" event = "Click">Next</button>
           `
           }
-          }
-          let next = function(){
+        }
+        let next = function(){
             var element;
           element = document.getElementById("display");
           if (element) {
@@ -128,15 +147,14 @@ button:hover {
             if(saveButton){
                 saveButton.innerHTML = `<button id="SaveButton" onClick = "save()" event = "Click"> Save </button>`
             }
-            state = 0;
           }
-          let save = function(){
+        let save = function(){
             data = {"username":username,"state":state};
             console.log(data);
             alert(`Cool! You saved, here's your ID to keep going another time! ${id}`)
             yourDatabase.child("data").set(data);
         }
-          let ready = function(){
+        let ready = function(){
             var element;
           element = document.getElementById("display");
           if (element) {
@@ -147,13 +165,15 @@ button:hover {
           <button id = "startingpath1" onClick = "startingpath1()" event = "Click">Next</button> 
           `
           }
-            var chapter;
-            chapter = document.getElementById("chapter");
+          var chapter;
+            chapter = document.getElementById("Chapter");
             if(chapter){
-              chapter.innerHTML =
-                `
-              <H1> PROLOGUE </H1>
-          `
+              chapter.innerHTML = `<H1> Prologue </H1>`
+            }
+            var saveButton;
+            saveButton = document.getElementById("Save");
+            if(saveButton){
+                saveButton.innerHTML = `<button id="SaveButton" onClick = "save()" event = "Click"> Save </button>`
             }
             state = 1;
           }
@@ -170,6 +190,16 @@ button:hover {
           <button id = "path2" onClick = "path2()" event = "Click"> Help your friend! </button> 
           `
           }
+          var chapter;
+            chapter = document.getElementById("Chapter");
+            if(chapter){
+              chapter.innerHTML = `<H1> Prologue </H1>`
+            }
+          var saveButton;
+            saveButton = document.getElementById("Save");
+            if(saveButton){
+                saveButton.innerHTML = `<button id="SaveButton" onClick = "save()" event = "Click"> Save </button>`
+            }
           state = 2;
           }
           let path1 = function(){
@@ -181,6 +211,16 @@ button:hover {
           <p style = "color:grey;"> You can feel your ability growing, hopefully soon you can do amazing things with your new coding talents! </p>
           `
           }
+          var chapter;
+            chapter = document.getElementById("Chapter");
+            if(chapter){
+              chapter.innerHTML = `<H1> Prologue </H1>`
+            }
+          var saveButton;
+            saveButton = document.getElementById("Save");
+            if(saveButton){
+                saveButton.innerHTML = `<button id="SaveButton" onClick = "save()" event = "Click"> Save </button>`
+            }
           state = 3;
           }  
           let path2 = function(){
@@ -192,6 +232,16 @@ button:hover {
           <p style = "color:grey;"> You can feel your friendship growing, hopefully soon you can do amazing things with your new charismatic talents! </p>
           `
           }
+          var saveButton;
+            saveButton = document.getElementById("Save");
+            if(saveButton){
+                saveButton.innerHTML = `<button id="SaveButton" onClick = "save()" event = "Click"> Save </button>`
+            }
+            var chapter;
+            chapter = document.getElementById("Chapter");
+            if(chapter){
+              chapter.innerHTML = `<H1> Prologue </H1>`
+            }
           state = 4;
           }
     </script>
