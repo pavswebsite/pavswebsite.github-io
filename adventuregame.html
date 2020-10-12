@@ -51,7 +51,6 @@ button:hover {
             console.log(id);
             yourDatabase = firebase.database().ref().child(id);
             //console.log(ref.val());
-            console.log(yourDatabase.child("data").once("value"));
             yourDatabase.child("data").once("value").then(function(snapshot)
             {
                 console.log(snapshot.val());
